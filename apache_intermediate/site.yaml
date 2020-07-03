@@ -1,0 +1,7 @@
+---
+- name: This is my role-based playbook 
+  hosts: web
+  become: yes
+
+  roles: 
+  - apache-simple
