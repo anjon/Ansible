@@ -1,0 +1,7 @@
+- name: Verify the Apache service
+  hosts: server1.example.com
+  tasks:
+    - name: Ensure the server1 is reachable
+      uri:
+        url: http://server1.example.com
+        status_code: 200
