@@ -12,7 +12,7 @@
        enabled: yes
   - name: Create index.html file for hosting static content
     copy:
-      content: "Hoorraaayyy!!! My first playbook ran successfully"
+      content: "Hoorraaayyy!!! My first playbook ran successfully \n"
       dest: /var/www/html/index.html
   - name: Opne the firewall port for apache
     firewalld:
