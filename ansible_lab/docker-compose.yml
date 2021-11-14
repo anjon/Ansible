@@ -1,0 +1,55 @@
+version: "3.8"
+services: 
+  base:
+    build: ./base/
+    image: ansible_base
+  
+  master:
+    build: ./master/
+    image: ansible_master
+    container_name: master
+    hostname: master
+    command: ["/usr/sbin/sshd","-D"]
+    volumes: 
+      - ansible_vol:/var/ans
+    networks:
+      - ansible_lab
+
+  host01:
+    build: ./hosts/
+    image: ansible_host
+    container_name: host01
+    hostname: host01
+    command: ["/var/run.sh"]
+    volumes: 
+      - ansible_vol:/var/ans
+    networks: 
+      - ansible_lab
+
+  host02:
+    build: ./hosts/
+    image: ansible_host
+    container_name: host02
+    hostname: host02
+    command: ["/var/run.sh"]
+    volumes: 
+      - ansible_vol:/var/ans
+    networks: 
+      - ansible_lab
+
+  host03:
+    build: ./hosts/
+    image: ansible_host
+    container_name: host03
+    hostname: host03
+    command: ["/var/run.sh"]
+    volumes:
+      - ansible_vol:/var/ans
+    networks:
+      - ansible_lab
+
+networks:
+  ansible_lab:
+
+volumes:
+  ansible_vol:
