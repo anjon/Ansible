@@ -1,31 +1,30 @@
-version: '3.8'
-
+version: '3'
 services:
-  control-node:
+  master:
     image: ubuntu:latest
-    container_name: control-node
+    container_name: ansible_master
     tty: true
     volumes:
-      - ./control-node:/control-node
+      - ./master:/etc/ansible
     networks:
       - ansible-net
-    build:
-      context: .
-      dockerfile: Dockerfile.control
+    command: /bin/bash
 
-  managed-node1:
+  slave1:
     image: ubuntu:latest
-    container_name: managed-node1
+    container_name: ansible_slave1
     tty: true
     networks:
       - ansible-net
+    command: /bin/bash
 
-  managed-node2:
+  slave2:
     image: ubuntu:latest
-    container_name: managed-node2
+    container_name: ansible_slave2
     tty: true
     networks:
       - ansible-net
+    command: /bin/bash
 
 networks:
   ansible-net:
