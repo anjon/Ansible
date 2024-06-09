@@ -1,0 +1,20 @@
+# Dockerfile.control
+FROM ubuntu:latest
+
+# Update and install dependencies
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    sshpass \
+    openssh-client \
+    git \
+    sudo \
+    pipx
+
+# Install Ansible
+RUN pipx install ansible
+
+# Create Ansible directory
+RUN mkdir /ansible
+
+WORKDIR /ansible

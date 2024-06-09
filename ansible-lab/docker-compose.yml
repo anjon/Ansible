@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  control-node:
+    image: ubuntu:latest
+    container_name: control-node
+    tty: true
+    volumes:
+      - ./control-node:/control-node
+    networks:
+      - ansible-net
+    build:
+      context: .
+      dockerfile: Dockerfile.control
+
+  managed-node1:
+    image: ubuntu:latest
+    container_name: managed-node1
+    tty: true
+    networks:
+      - ansible-net
+
+  managed-node2:
+    image: ubuntu:latest
+    container_name: managed-node2
+    tty: true
+    networks:
+      - ansible-net
+
+networks:
+  ansible-net:
+    driver: bridge
