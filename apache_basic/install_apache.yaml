@@ -1,15 +1,16 @@
 ---
-- name: Install the apache web service 
-  hosts: web
-  become: yes
+- name: Install the apache web service
+  hosts: localhost
+  become: true
 
   tasks:
-    - name: install apache
-      yum :
+    - name: Install apache
+      ansible.builtin.apt:
         name: httpd
         state: present
 
-    - name: start httpd
-      service:
+    - name: Start httpd service
+      ansible.builtin.service:
         name: httpd
-        state: started 
+        enabled: true
+        state: started
