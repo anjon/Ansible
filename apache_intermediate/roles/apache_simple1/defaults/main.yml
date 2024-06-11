@@ -1,0 +1,3 @@
+---
+# defaults file for apache_simple1
+apache_simple1_test_message: This is a test message
