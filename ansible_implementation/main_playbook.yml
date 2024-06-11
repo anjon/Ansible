@@ -1,37 +1,42 @@
-- hosts: webservers
-  become: yes
+---
+- name: Install webserver and firewall
+  hosts: webservers
+  become: true
   vars:
     rule: http
   tasks:
     - name: Include the variables from the YAML file
-      include_vars: vars/variables.yml
+      ansible.builtin.include_vars: vars/variables.yml
 
     - name: Include the environment file and set the variables
-      import_tasks: tasks/environment.yml
+      ansible.builtin.import_tasks: tasks/environment.yml
       vars:
         package: httpd
         service: httpd
         svc_state: started
 
     - name: Install the firewall
-      yum:
+      ansible.builtin.dnf:
         name: "{{ firewall_pkg }}"
-        state: latest
+        state: present
 
     - name: Start the firewall
-      service:
+      ansible.builtin.service:
         name: firewalld
         state: started
         enabled: true
 
     - name: Open the port for {{ rule }}
-      firewalld:
+      ansible.posix.firewalld:
         service: "{{ rule }}"
         immediate: true
         permanent: true
         state: enabled
 
     - name: Create index.html
-      copy:
+      ansible.builtin.copy:
         content: "{{ ansible_fqdn }} has been customized using Ansible on the {{ ansible_date_time.date }}\n"
         dest: /var/www/html/index.html
+        owner: root
+        group: root
+        mode: '644'

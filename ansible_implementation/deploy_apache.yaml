@@ -1,25 +1,33 @@
-- hosts: webservers
-  become: yes
+---
+- name: Installing https/https and Opening port for this
+  hosts: webservers
+  become: true
   tasks:
-  - name: Install httpd package
-    yum:
-      name: httpd
-      state: latest
-  - name: Enable and start httpd service
-    service:
-       name: httpd
-       state: started
-       enabled: yes
-  - name: Create index.html file for hosting static content
-    copy:
-      content: "Hoorraaayyy!!! My first playbook ran successfully \n"
-      dest: /var/www/html/index.html
-  - name: Opne the firewall port for apache
-    firewalld:
-      service: "{{ item }}"
-      permanent: yes
-      state: enabled
-      immediate: yes
-    loop:
-      - http
-      - https
+    - name: Install httpd package
+      ansible.builtin.dnf:
+        name: httpd
+        state: present
+
+    - name: Enable and start httpd service
+      ansible.builtin.service:
+        name: httpd
+        state: started
+        enabled: true
+
+    - name: Create index.html file for hosting static content
+      ansible.builtin.copy:
+        content: "Hoorraaayyy!!! My first playbook ran successfully \n"
+        dest: /var/www/html/index.html
+        owner: root
+        group: root
+        mode: '644'
+
+    - name: Opne the firewall port for apache
+      ansible.posix.firewalld:
+        service: "{{ item }}"
+        permanent: true
+        state: enabled
+        immediate: true
+      loop:
+        - http
+        - https

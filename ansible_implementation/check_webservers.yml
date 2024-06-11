@@ -1,4 +1,6 @@
-- hosts: webservers
+---
+- name: Checking connectivity
+  hosts: webservers
   tasks:
-  - name: Check connectivity
-    ping:
+    - name: Check connectivity
+      ansible.builtin.ping:
