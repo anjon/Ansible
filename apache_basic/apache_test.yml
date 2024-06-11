@@ -37,7 +37,7 @@
         mode: '0644'
       notify: restart apache
 
-    - name: ensure Apache is running and starts at boot.
+    - name: Ensure Apache is running and starts at boot.
       ansible.builtin.service:
         name: "{{ apache_service }}"
         state: started
