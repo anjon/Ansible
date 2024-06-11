@@ -1,8 +1,6 @@
 ---
 - name: Installing https/https and Opening port for this
   hosts: webservers
-  collections:
-    - ansible.posix
   become: true
   tasks:
     - name: Install httpd package
@@ -24,12 +22,12 @@
         group: root
         mode: "644"
 
-    - name: Opne the firewall port for apache
-      ansible.posix.firewalld:
-        service: "{{ item }}"
-        permanent: true
-        state: enabled
-        immediate: true
-      loop:
-        - http
-        - https
+#    - name: Opne the firewall port for apache
+#      ansible.posix.firewalld:
+#        service: "{{ item }}"
+#        permanent: true
+#        state: enabled
+#        immediate: true
+#      loop:
+#        - http
+#        - https
