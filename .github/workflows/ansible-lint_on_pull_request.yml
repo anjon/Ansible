@@ -30,4 +30,4 @@ jobs:
           sleep 30
 
       - name: Run ansible-lint
-        uses: ansible/ansible-lint@v6
+        uses: ansible/ansible-lint@main
