@@ -2,6 +2,6 @@
   hosts: localhost
   tasks:
     - name: Ensure the webserver is reachable
-      uri:
+      ansible.builtin.uri:
         url: http://server1.example.com
         status_code: 200

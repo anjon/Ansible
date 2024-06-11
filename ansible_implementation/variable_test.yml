@@ -1,6 +1,6 @@
 - name: Install Apache and start the service
   hosts: webservers
-  become: yes
+  become: true
   vars:
     web_pkg: httpd
     firewall_pkg: firewalld
@@ -9,30 +9,31 @@
     rule: http
   tasks:
     - name: Install the required packages
-      yum:
+      ansible.builtin.dnf:
         name:
-          - "{{ web_pkg  }}"
+          - '{{ web_pkg }}'
           - "{{ firewall_pkg }}"
-        state: latest
-    - name: Start and enable the {{ firewall_service }} service
-      service:
+        state: present
+    - name: Start and enable the service {{ firewall_service }}
+      ansible.builtin.service:
         name: "{{ firewall_service }}"
         enabled: true
         state: started
 
-    - name: Start and enable the {{ web_service }} service
-      service:
+    - name: Start and enable the service {{ web_service }}
+      ansible.builtin.service:
         name: "{{ web_service }}"
         enabled: true
         state: started
     - name: Create web content to be served
-      copy:
+      ansible.builtin.copy:
         content: "Example web content"
         dest: /var/www/html/index.html
+        mode: '0644'
+
     - name: Open the port for {{ rule }}
-      firewalld:
+      ansible.posix.firewalld:
         service: "{{ rule }}"
         permanent: true
         immediate: true
         state: enabled
-
