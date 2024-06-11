@@ -1,5 +1,5 @@
 ---
-- name: Install the apache web service
+- name: This is apache installation test
   hosts: localhost
   become: true
 
