@@ -26,7 +26,8 @@ jobs:
 
       - name: Install Ansible Galaxy Collections
         run: |
-          ansible-galaxy collection install ansible.posix -p
+          ansible-galaxy collection install ansible.posix
+          sleep 30
 
       - name: Run ansible-lint
         uses: ansible/ansible-lint@main # or version tag instead of 'main'
