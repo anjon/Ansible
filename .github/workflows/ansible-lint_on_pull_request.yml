@@ -1,10 +1,32 @@
-name: GitHub automations ansible-lint for best practice
-on: [push]   # the list of conditions on which our automation triggers
+name: ansible-lint
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 jobs:
-  AnsibleLint:
-    runs-on: ubuntu-latest     # name of a container (environment) to run your automations in
+  ansible-Lint:
+    name: Ansible Lint # Naming the build is important to use it as a status check
+    runs-on: ubuntu-latest
     steps:
-      - name: check code out from github and into "ubuntu-latest" (or our environment)
+      - name: Check code out from github and into "ubuntu-latest" (or our environment)
         uses: actions/checkout@v4
-      - name: lint ansible playbook playbook.yml
-        uses: ansible/ansible-lint@main   # this is there branch
+
+      - name: Install python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Ansible
+        run: |
+          python -m pip install --upgrade pip
+          pip install ansible
+
+      - name: Install Ansible Galaxy Collections
+        run: |
+          ansible-galaxy collection install ansible.posix
+
+      - name: Run ansible-lint
+        uses: ansible/ansible-lint@main # or version tag instead of 'main'
