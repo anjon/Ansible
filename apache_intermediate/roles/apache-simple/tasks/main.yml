@@ -1,20 +1,21 @@
 ---
 # tasks file for apache-simple
 
-- name: install httpd packages
-  yum:
+- name: Install httpd packages
+  ansible.builtin.dnf:
     name: "{{ item }}"
     state: present
   loop: "{{ httpd_packages }}"
   notify: restart apache service
 
-- name: copy index.html
-  template:
+- name: Copy index.html
+  ansible.builtin.template:
     src: index.html.j2
     dest: /var/www/html/index.html
+    mode: '0644'
 
-- name: start httpd
-  service:
+- name: Start httpd
+  ansible.builtin.service:
     name: httpd
     state: started
-    enabled: yes
+    enabled: true
